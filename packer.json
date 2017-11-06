@@ -1,0 +1,73 @@
+{
+  "variables": {
+    "ssh_username": "{{ env `AWS_SSH_USERNAME` }}",
+    "image_name": "{{ env `AWS_IMAGE_NAME` }}",
+    "source_ami": "{{ env `AWS_SOURCE_AMI` }}",
+    "aws_instance_type": "{{ env `AWS_INTANCE_TYPE` }}",
+    "aws_spot_price": "{{ env `AWS_SPOT_PRICE` }}",
+    "aws_access_key_id": "{{ env `AWS_ACCESS_KEY_ID` }}",
+    "aws_secret_access_key": "{{ env `AWS_SECRET_ACCESS_KEY` }}",
+    "aws_region": "{{ env `AWS_REGION` }}",
+    "kubernetes_release_tag": "{{ env `KUBERNETES_RELEASE_TAG` }}",
+    "etcd_release_tag": "{{ env `ETCD_RELEASE_TAG` }}",
+    "k8s_dns_release_tag": "{{ env `K8S_DNS_RELEASE_TAG` }}",
+    "helm_release_tag": "{{ env `HELM_RELEASE_TAG` }}",
+    "spark_release_tag": "{{ env `SPARK_RELEASE_TAG` }}",
+    "zeppelin_release_tag": "{{ env `ZEPPELIN_RELEASE_TAG` }}",
+    "weave_release_tag": "{{ env `WEAVE_RELEASE_TAG` }}",
+    "prometheus_release_tag": "{{ env `PROMETHEUS_RELEASE_TAG` }}",
+    "pushgateway_release_tag": "{{ env `PUSHGATEWAY_RELEASE_TAG` }}",
+    "github_token": "{{ env `GITHUB_TOKEN` }}",
+    "helm_repo_user": "{{ env `HELM_REPO_USER` }}",
+    "helm_repo_pass": "{{ env `HELM_REPO_PASS` }}"
+  },
+  "builders": [
+    {
+      "name": "aws-ubuntu-1604-amd64",
+      "type": "amazon-ebs",
+      "region": "{{ user `aws_region` }}",
+      "spot_price": "{{ user `aws_spot_price` }}",
+      "ebs_optimized": true,
+      "ena_support": true,
+      "ssh_pty": true,
+      "source_ami": "{{ user `source_ami`}}",
+      "instance_type": "{{ user `aws_instance_type` }}",
+      "ssh_username": "{{ user `ssh_username` }}",
+      "ssh_private_key_file": "{{ user `ssh_private_key_file` }}",
+      "ssh_keypair_name": "{{ user `ssh_keypair_name` }}",
+      "tags": {
+        "builder": "packer",
+        "version": "{{user `version`}}"
+      },
+      "ami_groups": "all",
+      "ami_name": "{{ user `image_name`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "files/etc/systemd/system/node_exporter.service",
+      "destination": "/tmp/node_exporter.service"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/bootstrap.sh",
+      "environment_vars": [
+        "AWS_ACCESS_KEY_ID={{ user `aws_access_key_id` }}",
+        "AWS_SECRET_ACCESS_KEY={{ user `aws_secret_access_key` }}",
+        "AWS_REGION={{ user `aws_region` }}",
+        "AWS_DEFAULT_REGION={{ user `aws_region`}}",
+        "KUBERNETES_RELEASE_TAG={{ user `kubernetes_release_tag`}}",
+        "ETCD_RELEASE_TAG={{ user `etcd_release_tag`}}",
+        "K8S_DNS_RELEASE_TAG={{ user `k8s_dns_release_tag`}}",
+        "SPARK_RELEASE_TAG={{ user `spark_release_tag`}}",
+        "HELM_RELEASE_TAG={{ user `helm_release_tag`}}",
+        "ZEPPELIN_RELEASE_TAG={{ user `zeppelin_release_tag`}}",
+        "WEAVE_RELEASE_TAG={{ user `weave_release_tag`}}",
+        "PROMETHEUS_RELEASE_TAG={{ user `prometheus_release_tag`}}",
+        "PUSHGATEWAY_RELEASE_TAG={{ user `pushgateway_release_tag`}}"
+      ],
+      "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}"
+    }
+  ]
+}
