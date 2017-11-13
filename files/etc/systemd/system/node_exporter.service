@@ -6,13 +6,13 @@ After=network.target
 [Service]
 Type=simple
 
-ExecStartPre=/bin/sh -c  " mkdir -p '/var/log/node_exporter' "
-ExecStartPre=/bin/sh -c  " chown -R root:adm '/var/log/node_exporter' "
+ExecStartPre=/bin/sh -c "mkdir -p '/var/log/node_exporter'"
+ExecStartPre=/bin/sh -c "chown -R root:adm '/var/log/node_exporter'"
 PIDFile=/var/run/node_exporter.pid
 
 User=root
 Group=adm
-ExecStart=/opt/node_exporter/node_exporter -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|run|var/lib/docker/overlay|var/lib/kubelet/pods|var/lib/docker/containers)($|/)"
+ExecStart=/opt/node_exporter/node_exporter --collector.filesystem.ignored-mount-points "^/(sys|proc|dev|run|var/lib/docker/overlay|var/lib/kubelet/pods|var/lib/docker/containers)($|/)"
 
 [Install]
 WantedBy=multi-user.target
