@@ -15,9 +15,9 @@ apt-get install -y \
     cloud-utils \
     cloud-init \
     cloud-initramfs-growroot \
-    docker.io=1.12.6-0ubuntu1~16.04.1 \
-    kubelet=1.7.5-00 \
-    kubeadm=1.7.5-00 \
+    docker.io=1.13.1-0ubuntu1~16.04.2 \
+    kubelet=1.8.3-00 \
+    kubeadm=1.8.3-00 \
     kubernetes-cni=0.5.1-00 \
     sysstat \
     iotop \
@@ -25,7 +25,8 @@ apt-get install -y \
     ngrep \
     tcpdump \
     atop \
-    python-pip
+    python-pip \
+    jq
 
 # We don't want to upgrade them.
 apt-mark hold kubeadm kubectl kubelet kubernetes-cni
@@ -109,7 +110,7 @@ cd -
 
 # Install prometheus node_exporter
 mkdir /opt/node_exporter
-wget -qO- "https://github.com/prometheus/node_exporter/releases/download/v0.15.0/node_exporter-0.15.0.linux-amd64.tar.gz" | tar -xzvf - --strip-components=1 -C /opt/node_exporter/
+wget -qO- "https://github.com/prometheus/node_exporter/releases/download/v0.15.1/node_exporter-0.15.1.linux-amd64.tar.gz" | tar -xzvf - --strip-components=1 -C /opt/node_exporter/
 
 cp /tmp/node_exporter.service /etc/systemd/system/node_exporter.service
 
@@ -120,4 +121,5 @@ systemctl start  node_exporter
 rm /root/.ssh/authorized_keys
 rm /home/ubuntu/.ssh/authorized_keys
 rm /etc/machine-id
+rm -rf /var/lib/cloud/instances/*
 touch /etc/machine-id
