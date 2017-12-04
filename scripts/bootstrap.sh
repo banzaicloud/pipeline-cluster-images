@@ -100,6 +100,7 @@ helm repo add banzaicloud-stable http://kubernetes-charts.banzaicloud.com
 helm repo update
 helm repo list
 helm fetch banzaicloud-stable/pipeline-cluster
+helm fetch banzaicloud-stable/pipeline-cluster-ingress
 tar -xvzf pipeline-cluster*
 rm -rf /home/ubuntu/.helm
 
