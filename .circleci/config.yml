@@ -13,15 +13,16 @@ jobs:
           AWS_SSH_USERNAME: ubuntu
           AWS_SOURCE_AMI: ami-add175d4
           AWS_INTANCE_TYPE: c4.large
-          KUBERNETES_RELEASE_TAG: v1.8.3
-          ETCD_RELEASE_TAG: 3.0.17
-          K8S_DNS_RELEASE_TAG: 1.14.7
-          SPARK_RELEASE_TAG: v2.2.0-k8s-1.0.161
-          ZEPPELIN_RELEASE_TAG: v2.2.0-k8s-1.0.44
-          HELM_RELEASE_TAG: v2.7.0
-          WEAVE_RELEASE_TAG: 2.0.5
-          PROMETHEUS_RELEASE_TAG: v1.7.1
-          PUSHGATEWAY_RELEASE_TAG: v0.3.1
+          KUBERNETES_VERSION: 1.9.5
+          KUBERNETES_RELEASE_TAG: v1.9.5
+          ETCD_RELEASE_TAG: 3.1.11
+          K8S_DNS_RELEASE_TAG: 1.14.8
+          SPARK_RELEASE_TAG: v2.2.1-k8s-1.0.8
+          ZEPPELIN_RELEASE_TAG: v0.9.0-k8s-1.0.9
+          HELM_RELEASE_TAG: v2.8.2
+          WEAVE_RELEASE_TAG: 2.2.1
+          PROMETHEUS_RELEASE_TAG: v2.1.0
+          PUSHGATEWAY_RELEASE_TAG: v0.4.0-banzaicloud-0.1.1
           BASE_NAME: pipeline-cluster-image
     steps:
       - checkout
@@ -34,6 +35,3 @@ jobs:
             GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
             export AWS_IMAGE_NAME=$BASE_NAME-$GIT_BRANCH-$GIT_REV-$(date +%y%m%d%H%M)
             packer build ./packer.json
-
-
- 
