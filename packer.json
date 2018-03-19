@@ -8,6 +8,7 @@
     "aws_access_key_id": "{{ env `AWS_ACCESS_KEY_ID` }}",
     "aws_secret_access_key": "{{ env `AWS_SECRET_ACCESS_KEY` }}",
     "aws_region": "{{ env `AWS_REGION` }}",
+    "kubernetes_version": "{{ env `KUBERNETES_VERSION` }}",
     "kubernetes_release_tag": "{{ env `KUBERNETES_RELEASE_TAG` }}",
     "etcd_release_tag": "{{ env `ETCD_RELEASE_TAG` }}",
     "k8s_dns_release_tag": "{{ env `K8S_DNS_RELEASE_TAG` }}",
@@ -17,9 +18,7 @@
     "weave_release_tag": "{{ env `WEAVE_RELEASE_TAG` }}",
     "prometheus_release_tag": "{{ env `PROMETHEUS_RELEASE_TAG` }}",
     "pushgateway_release_tag": "{{ env `PUSHGATEWAY_RELEASE_TAG` }}",
-    "github_token": "{{ env `GITHUB_TOKEN` }}",
-    "helm_repo_user": "{{ env `HELM_REPO_USER` }}",
-    "helm_repo_pass": "{{ env `HELM_REPO_PASS` }}"
+    "traefik_release_tag": "{{ env `TRAEFIK_RELEASE_TAG` }}"
   },
   "builders": [
     {
@@ -57,6 +56,7 @@
         "AWS_SECRET_ACCESS_KEY={{ user `aws_secret_access_key` }}",
         "AWS_REGION={{ user `aws_region` }}",
         "AWS_DEFAULT_REGION={{ user `aws_region`}}",
+        "KUBERNETES_VERSION={{ user `kubernetes_version`}}",
         "KUBERNETES_RELEASE_TAG={{ user `kubernetes_release_tag`}}",
         "ETCD_RELEASE_TAG={{ user `etcd_release_tag`}}",
         "K8S_DNS_RELEASE_TAG={{ user `k8s_dns_release_tag`}}",
@@ -65,7 +65,8 @@
         "ZEPPELIN_RELEASE_TAG={{ user `zeppelin_release_tag`}}",
         "WEAVE_RELEASE_TAG={{ user `weave_release_tag`}}",
         "PROMETHEUS_RELEASE_TAG={{ user `prometheus_release_tag`}}",
-        "PUSHGATEWAY_RELEASE_TAG={{ user `pushgateway_release_tag`}}"
+        "PUSHGATEWAY_RELEASE_TAG={{ user `pushgateway_release_tag`}}",
+        "TRAEFIK_RELEASE_TAG={{user `traefik_release_tag`}}"
       ],
       "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}"
     }
