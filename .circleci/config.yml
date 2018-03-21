@@ -23,6 +23,7 @@ jobs:
           WEAVE_RELEASE_TAG: 2.2.1
           PROMETHEUS_RELEASE_TAG: v2.1.0
           PUSHGATEWAY_RELEASE_TAG: v0.4.0-banzaicloud-0.1.1
+          TRAEFIK_RELEASE_TAG: 1.5.3
           BASE_NAME: pipeline-cluster-image
     steps:
       - checkout
