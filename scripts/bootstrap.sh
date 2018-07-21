@@ -20,7 +20,7 @@ apt-get install -y \
     cloud-utils \
     cloud-init \
     cloud-initramfs-growroot \
-    docker-ce=17.12.0~ce-0~ubuntu \
+    docker-ce=17.12.1~ce-0~ubuntu \
     kubelet="${KUBERNETES_VERSION}-00" \
     kubeadm="${KUBERNETES_VERSION}-00" \
     kubernetes-cni=0.6.0-00 \
@@ -67,8 +67,8 @@ images=(
   "gcr.io/google_containers/kube-controller-manager-amd64:${KUBERNETES_RELEASE_TAG}"
   "gcr.io/google_containers/kube-proxy-amd64:${KUBERNETES_RELEASE_TAG}"
   "gcr.io/google_containers/kube-scheduler-amd64:${KUBERNETES_RELEASE_TAG}"
-  "gcr.io/google_containers/kube-state-metrics:v1.2.0"
-  "gcr.io/google_containers/pause-amd64:3.0"
+  "gcr.io/google_containers/kube-state-metrics:v1.3.1"
+  "gcr.io/google_containers/pause-amd64:3.1"
   "gcr.io/kubernetes-helm/tiller:${HELM_RELEASE_TAG}"
 
   "banzaicloud/pushgateway:${PUSHGATEWAY_RELEASE_TAG}"
@@ -81,6 +81,10 @@ images=(
 )
 
 for i in "${images[@]}" ; do docker pull "${i}" ; done
+
+#enable legacy interface name 
+sed -i 's@GRUB_CMDLINE_LINUX=""@GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"@g' /etc/default/grub
+update-grub
 
 ## Cleanup packer SSH key and machine ID generated for this boot
 rm /root/.ssh/authorized_keys

@@ -13,9 +13,9 @@ jobs:
           AWS_SSH_USERNAME: ubuntu
           AWS_SOURCE_AMI: ami-add175d4
           AWS_INTANCE_TYPE: c4.large
-          KUBERNETES_VERSION: 1.9.5
-          KUBERNETES_RELEASE_TAG: v1.9.5
-          ETCD_RELEASE_TAG: 3.1.11
+          KUBERNETES_VERSION: 1.11.0
+          KUBERNETES_RELEASE_TAG: v1.11.0
+          ETCD_RELEASE_TAG: 3.1.16
           K8S_DNS_RELEASE_TAG: 1.14.8
           SPARK_RELEASE_TAG: v2.2.1-k8s-1.0.11
           ZEPPELIN_RELEASE_TAG: v0.9.0-k8s-1.0.12
